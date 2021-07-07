@@ -13,9 +13,9 @@ const pool = require('../pool');
 describe('Server Test Group', ()=>{
   let id;
 
-  // beforeAll(async () => {
-  //   await pool.connect();
-  // });
+  beforeAll(async () => {
+    await pool.connect();
+  });
   afterAll(async () => {
     await pool.end();
   });
