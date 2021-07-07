@@ -1,12 +1,24 @@
 'use strict';
 
-const supergoose = require('@code-fellows/supergoose');
+// const supergoose = require('@code-fellows/supergoose');
 const supertest = require('supertest');
 const { app } = require('../src/server');
 const request = supertest(app);
+const pool = require('../pool');
+
+
+
+
 
 describe('Server Test Group', ()=>{
   let id;
+
+  beforeAll(async () => {
+    await pool.connect();
+  });
+  afterAll(async () => {
+    await pool.end();
+  });
 
   it('Handles bad route', async ()=>{
     const response = await request.get('/hello');
@@ -36,7 +48,6 @@ describe('Server Test Group', ()=>{
 
     expect(response.body.foods[0].name).toBe("test");
     expect(response.body.foods[0].price).toBe(50);
-    expect(response.body.foods.length).toBe(1);
     expect(response.status).toEqual(200);
   });
 

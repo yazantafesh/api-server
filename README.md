@@ -62,11 +62,11 @@ Create an express server with the following proposed structure
 
 ## Links
 
-Heroku Link: https://api-server-yazan.herokuapp.com/
+Heroku Link: https://api-server-yazan-sql.herokuapp.com/api/v1/food
 
 Github Actions: https://github.com/yazantafesh/api-server/actions
 
-Pull Request: https://github.com/yazantafesh/api-server/pull/3
+Pull Request: https://github.com/yazantafesh/api-server/pull/4
 
 ## UML
 
