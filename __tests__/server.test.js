@@ -48,7 +48,6 @@ describe('Server Test Group', ()=>{
 
     expect(response.body.foods[0].name).toBe("test");
     expect(response.body.foods[0].price).toBe(50);
-    expect(response.body.foods.length).toBe(1);
     expect(response.status).toEqual(200);
   });
 
