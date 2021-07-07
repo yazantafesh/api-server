@@ -6,6 +6,11 @@ const url = process.env.DATABASE_URL || 'postgres://amnzdvktpklsci:a98fc677e1246
 
 // pg.defaults.ssl = process.env.NODE_ENV === 'production' && { rejectUnauthorized: false };
 
-module.exports = new pg.Pool({
-  connectionString: url,
-})
+if (!process.env.DATABASE_URL) {
+  module.exports = new pg.Client({
+    connectionString: connectionString,
+    ssl: { rejectUnauthorized: false },
+  });
+} else {
+  module.exports = new pg.Client(process.env.DATABASE_URL);
+}
