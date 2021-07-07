@@ -66,7 +66,7 @@ Heroku Link: https://api-server-yazan.herokuapp.com/
 
 Github Actions: https://github.com/yazantafesh/api-server/actions
 
-Pull Request: https://github.com/yazantafesh/api-server/pull/1
+Pull Request: https://github.com/yazantafesh/api-server/pull/3
 
 ## UML
 
