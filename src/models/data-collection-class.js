@@ -1,28 +1,35 @@
 'use strict';
 
+const pool = require('../../pool');
+
 class DataCollection {
-  constructor(model) {
-    this.model = model;
+  constructor(table, name) {
+    this.table = table;
+    this.name = name;
   }
 
   create(obj) {
-    const doc = new this.model(obj);
-    return doc.save();
+    const sql = `INSERT INTO ${this.name} (name,price) VALUES ($1,$2) RETURNING *;`;
+    
+    const safeValues = [obj.name, obj.price];
+    return pool.query(sql, safeValues);
   }
 
-  read(_id) {
-    if (_id) {
-      return this.model.find({ _id });
+  read(id) {
+    if (id) {
+      return pool.query(`SELECT * FROM ${this.name} WHERE id=$1;`, [id]);
     }
-    return this.model.find({});
+    return pool.query(`SELECT * FROM ${this.name};`);
   }
 
-  update(_id, obj) {
-    return this.model.findByIdAndUpdate(_id, obj, { new: true });
+  update(id, obj) {
+    const sql = `UPDATE ${this.name} SET name=$1,price=$2 WHERE id=$3 RETURNING *;`;
+    const safeValues = [obj.name, obj.price, id];
+    return pool.query(sql, safeValues);
   }
 
-  delete(_id) {
-    return this.model.findByIdAndDelete(_id);
+  delete(id) {
+    return pool.query(`DELETE FROM ${this.name} WHERE id=$1 RETURNING *;`, [id]);
   }
 }
 

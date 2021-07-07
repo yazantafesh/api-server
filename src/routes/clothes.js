@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const clothModel = require('../models/clothes');
 const DataCollection = require('../models/data-collection-class');
-const cloth = new DataCollection(clothModel);
+const cloth = new DataCollection(clothModel, 'clothes');
 const validator = require('../middleware/validator');
 
 router.get('/', getClothes);
@@ -17,7 +17,7 @@ async function getClothes(req, res, next) {
   try {
     const id = req.params.id;
     const clothes = await cloth.read(id);
-    res.json({ clothes });
+    res.json({ clothes: clothes.rows });
   } catch (e) {
     next(e);
   }
@@ -27,7 +27,7 @@ async function createClothes(req, res, next) {
   try {
     const data = req.body;
     const newCloth = await cloth.create(data);
-    res.json(newCloth);
+    res.json(newCloth.rows[0]);
   } catch (e) {
     next(e);
   }
@@ -37,7 +37,7 @@ async function updateClothes(req, res, next) {
     const id = req.params.id;
     const data = req.body;
     const newCloth = await cloth.update(id, data);
-    res.json(newCloth);
+    res.json(newCloth.rows[0]);
   } catch (e) {
     next(e);
   }
@@ -46,7 +46,7 @@ async function deleteClothes(req, res, next) {
   try {
     const id = req.params.id;
     const deletedCloth = await cloth.delete(id);
-    res.json(deletedCloth);
+    res.json(deletedCloth.rows[0]);
   } catch (e) {
     next(e);
   }

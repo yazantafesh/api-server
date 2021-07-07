@@ -1,8 +1,9 @@
 'use strict';
 
 const supergoose = require('@code-fellows/supergoose');
+const supertest = require('supertest');
 const { app } = require('../src/server');
-const request = supergoose(app);
+const request = supertest(app);
 
 describe('Server Test Group', ()=>{
   let id;
@@ -18,11 +19,11 @@ describe('Server Test Group', ()=>{
   });
 
   it('Handles creating new food', async () => {
-    let foodObj = { name: 'test', price: 'test' };
+    let foodObj = { name: 'test', price: 50 };
 
     const response = await request.post('/api/v1/food').send(foodObj);
 
-    id = response.body._id;
+    id = response.body.id;
 
     expect(response.body.name).toBe(foodObj.name);
     expect(response.body.price).toBe(foodObj.price);
@@ -34,7 +35,7 @@ describe('Server Test Group', ()=>{
     const response = await request.get('/api/v1/food');
 
     expect(response.body.foods[0].name).toBe("test");
-    expect(response.body.foods[0].price).toBe("test");
+    expect(response.body.foods[0].price).toBe(50);
     expect(response.body.foods.length).toBe(1);
     expect(response.status).toEqual(200);
   });
@@ -43,7 +44,7 @@ describe('Server Test Group', ()=>{
 
     const newObj={
       name:'potato',
-      price:'5'
+      price:5
     }
 
     const response = await request.put("/api/v1/food/"+id).send(newObj);
